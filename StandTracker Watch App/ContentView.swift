@@ -9,13 +9,23 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("TEST")
+        NavigationView {
+            List {
+                NavigationLink(destination: ScreenOne()) {
+                    VStack(alignment: .leading) {
+                        Text("Begin Standing Session")
+                            .font(.headline)
+                    }
+                }
+                NavigationLink(destination: ScreenTwo()) {
+                    VStack(alignment: .leading) {
+                        Text("Standing Sessions History")
+                            .font(.headline)
+                    }
+                }
+            }
+            .navigationTitle("Main Menu")
         }
-        .padding()
     }
 }
 
