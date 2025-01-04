@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScreenTwo: View {
+struct StandHistory: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Standing Sessions History")

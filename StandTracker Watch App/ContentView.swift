@@ -11,15 +11,15 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: ScreenOne()) {
+                NavigationLink(destination: StandRecorder()) {
                     VStack(alignment: .leading) {
                         Text("Begin Standing Session")
                             .font(.headline)
                     }
                 }
-                NavigationLink(destination: ScreenTwo()) {
+                NavigationLink(destination: StandHistory()) {
                     VStack(alignment: .leading) {
-                        Text("Standing Sessions History")
+                        Text("History")
                             .font(.headline)
                     }
                 }

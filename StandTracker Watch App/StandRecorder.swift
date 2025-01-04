@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScreenOne: View {
+struct StandRecorder: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Standing Time & Calories")
