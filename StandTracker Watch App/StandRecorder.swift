@@ -11,40 +11,45 @@ struct StandRecorder: View {
     @State private var timeElapsed: Int = 0
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
+    @State private var showConfirmation = false
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Start tracking \nstanding time & calories")
-                .frame(width: 200)
-                .multilineTextAlignment(.center)
-            
+        VStack(alignment: .center) {
             Text(formatTime(timeElapsed))
                 .frame(width: 200)
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
-                
+            
             HStack {
                 Button(action: {
-                    startStopwatch()
+                    startWorkout()
                 }) {
                     Text(isRunning ? "Pause" : "Start")
                 }
-                    .background(isRunning ? Color.orange : Color.green)
-                    .cornerRadius(10)
+                .buttonStyle(BorderedButtonStyle(tint: isRunning ? Color.mint : Color.green))
                 
                 Button(action: {
-
+                    resetWorkout()
                 }) {
                     Text("Reset")
+                        .foregroundColor(.white)
                 }
-                .background(Color.red)
-                .cornerRadius(10)
+                .buttonStyle(BorderedButtonStyle(tint: Color.gray))
             }
-
+            
+            Button(action: {
+                endWorkout()
+            }) {
+                Text("End")
+            }
+            .buttonStyle(BorderedButtonStyle(tint: Color.red))
+            .disabled(!isRunning)
+            
         }
+        .navigationTitle("Tracking")
     }
     
-    private func startStopwatch() {
+    private func startWorkout() {
         if isRunning {
             timer?.invalidate()
         } else {
@@ -53,6 +58,20 @@ struct StandRecorder: View {
             }
         }
         isRunning.toggle()
+    }
+    
+    private func resetWorkout() {
+        if timeElapsed > 0 {
+            timeElapsed = 0
+            timer?.invalidate()
+            if isRunning {
+                isRunning.toggle()
+            }
+        }
+    }
+    
+    private func endWorkout() {
+        resetWorkout()
     }
     
     private func formatTime(_ seconds: Int) -> String {
