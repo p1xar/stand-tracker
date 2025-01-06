@@ -12,6 +12,7 @@ struct StandRecorder: View {
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
+    @State private var showAlert = false
     
     var body: some View {
         VStack(alignment: .center) {
@@ -38,12 +39,21 @@ struct StandRecorder: View {
             }
             
             Button(action: {
-                endWorkout()
+                showAlert = true
             }) {
                 Text("End")
             }
             .buttonStyle(BorderedButtonStyle(tint: Color.red))
             .disabled(!isRunning)
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Do you want to finish standing session and record a workout?"),
+                    primaryButton: .default(Text("Yes")) {
+                        endWorkout()
+                    },
+                    secondaryButton: .cancel()
+                )
+            }
             
         }
         .navigationTitle("Tracking")
@@ -80,4 +90,8 @@ struct StandRecorder: View {
         let seconds = seconds % 60
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
+}
+
+#Preview {
+    ContentView()
 }
