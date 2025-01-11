@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		367A71A02D29762A0080766D /* StandRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A719F2D29762A0080766D /* StandRecorder.swift */; };
 		367A71A22D2976B30080766D /* StandHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A71A12D2976B30080766D /* StandHistory.swift */; };
+		368E8FD32D2C34B600A330A0 /* HealthDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */; };
 		36F4A5D22D282A1E005E54CB /* StandTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36F4A5D12D282A1E005E54CB /* StandTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36F4A5D72D282A1E005E54CB /* StandTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4A5D62D282A1E005E54CB /* StandTrackerApp.swift */; };
 		36F4A5D92D282A1E005E54CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4A5D82D282A1E005E54CB /* ContentView.swift */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		367A719F2D29762A0080766D /* StandRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandRecorder.swift; sourceTree = "<group>"; };
 		367A71A12D2976B30080766D /* StandHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandHistory.swift; sourceTree = "<group>"; };
+		368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataManager.swift; sourceTree = "<group>"; };
 		36F4A5CB2D282A1E005E54CB /* StandTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StandTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F4A5D12D282A1E005E54CB /* StandTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StandTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F4A5D62D282A1E005E54CB /* StandTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandTrackerApp.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				36F4A5DC2D282A1F005E54CB /* Preview Content */,
 				367A719F2D29762A0080766D /* StandRecorder.swift */,
 				367A71A12D2976B30080766D /* StandHistory.swift */,
+				368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */,
 			);
 			path = "StandTracker Watch App";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 			files = (
 				36F4A5D92D282A1E005E54CB /* ContentView.swift in Sources */,
 				36F4A5D72D282A1E005E54CB /* StandTrackerApp.swift in Sources */,
+				368E8FD32D2C34B600A330A0 /* HealthDataManager.swift in Sources */,
 				367A71A22D2976B30080766D /* StandHistory.swift in Sources */,
 				367A71A02D29762A0080766D /* StandRecorder.swift in Sources */,
 			);
@@ -418,7 +422,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
 		};
@@ -472,7 +475,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Release;
 		};
@@ -481,6 +483,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "StandTracker Watch App/StandTracker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StandTracker Watch App/Preview Content\"";
@@ -502,7 +505,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Debug;
 		};
@@ -511,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "StandTracker Watch App/StandTracker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StandTracker Watch App/Preview Content\"";
@@ -533,7 +536,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 10.5;
 			};
 			name = Release;
 		};
@@ -541,15 +543,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8D29WN2Z53;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_KEY_CFBundleDisplayName = StandTracker;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imrume.StandTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
 			};
 			name = Debug;
 		};
@@ -557,15 +564,20 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8D29WN2Z53;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_KEY_CFBundleDisplayName = StandTracker;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imrume.StandTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "watchos watchsimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

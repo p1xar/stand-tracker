@@ -13,6 +13,7 @@ struct StandRecorder: View {
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
     @State private var showAlert = false
+    var healthKit = HealthDataManager()
     
     var body: some View {
         VStack(alignment: .center) {
@@ -60,6 +61,7 @@ struct StandRecorder: View {
     }
     
     private func startWorkout() {
+        healthKit.test()
         if isRunning {
             timer?.invalidate()
         } else {
@@ -91,6 +93,7 @@ struct StandRecorder: View {
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
 }
+
 
 #Preview {
     ContentView()
