@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct StandRecorder: View {
-    @State private var timeElapsed: Int = 0
+    @State private var timeElapsed: Int = 122
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
     @State private var showAlert = false
-    var healthKit = HealthDataManager()
+    var healthKitDataManager = HealthDataManager()
     
     var body: some View {
         VStack(alignment: .center) {
@@ -24,14 +24,14 @@ struct StandRecorder: View {
             
             HStack {
                 Button(action: {
-                    startWorkout()
+                    startTimer()
                 }) {
                     Text(isRunning ? "Pause" : "Start")
                 }
                 .buttonStyle(BorderedButtonStyle(tint: isRunning ? Color.mint : Color.green))
                 
                 Button(action: {
-                    resetWorkout()
+                    resetTimer()
                 }) {
                     Text("Reset")
                         .foregroundColor(.white)
@@ -60,8 +60,7 @@ struct StandRecorder: View {
         .navigationTitle("Tracking")
     }
     
-    private func startWorkout() {
-        healthKit.test()
+    private func startTimer() {
         if isRunning {
             timer?.invalidate()
         } else {
@@ -72,7 +71,7 @@ struct StandRecorder: View {
         isRunning.toggle()
     }
     
-    private func resetWorkout() {
+    private func resetTimer() {
         if timeElapsed > 0 {
             timeElapsed = 0
             timer?.invalidate()
@@ -83,7 +82,25 @@ struct StandRecorder: View {
     }
     
     private func endWorkout() {
-        resetWorkout()
+        // 2.0 is a MET for standing, 0.0175 is a constant converts MET values and body weight to calories burned per minute. 80 - kgs
+        print(UserDefaults.standard.double(forKey: "userWeight"))
+        let caloriesPerMinute = 2.0 * 80 * 0.0175
+        let minutes = (timeElapsed % 3600) / 60
+        healthKitDataManager.requestAuthorization { (success, error) in
+            if success {
+                healthKitDataManager.fetchCaloriesBurnedLastHour { (totalCalories, error) in
+                    if let error = error {
+                        print("Error calculating calories burned: \(error.localizedDescription)")
+                    } else if let totalCalories = totalCalories {
+                        print("Total calories burned in the last hour: \(totalCalories) kcal")
+                    }
+                }
+                
+            } else {
+                print("Authorization failed: \(String(describing: error))")
+            }
+        }
+        resetTimer()
     }
     
     private func formatTime(_ seconds: Int) -> String {
@@ -95,6 +112,4 @@ struct StandRecorder: View {
 }
 
 
-#Preview {
-    ContentView()
-}
+
