@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StandRecorder: View {
-    @State private var timeElapsed: Int = 122
+    @State private var timeElapsed: Int = 3600
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
@@ -82,17 +82,20 @@ struct StandRecorder: View {
     }
     
     private func endWorkout() {
-        // 2.0 is a MET for standing, 0.0175 is a constant converts MET values and body weight to calories burned per minute. 80 - kgs
-        print(UserDefaults.standard.double(forKey: "userWeight"))
-        let caloriesPerMinute = 2.0 * 80 * 0.0175
-        let minutes = (timeElapsed % 3600) / 60
+        // 1.5 is a MET for standing, 0.0175 is a constant converts MET values and body weight to calories burned per minute
+        let userWeight = UserDefaults.standard.double(forKey: "userWeight")
+        let caloriesPerMinute = 1.5 * userWeight * 0.0175
+        let minutes = timeElapsed / 60
+        let totalStandingCaloriesBurnt = caloriesPerMinute * Double(minutes)
         healthKitDataManager.requestAuthorization { (success, error) in
             if success {
-                healthKitDataManager.fetchCaloriesBurnedLastHour { (totalCalories, error) in
+                healthKitDataManager.getCaloriesBurnedLastHour(timeElapsed: Double(timeElapsed)) { (totalEnergyBurnt, error) in
                     if let error = error {
                         print("Error calculating calories burned: \(error.localizedDescription)")
-                    } else if let totalCalories = totalCalories {
-                        print("Total calories burned in the last hour: \(totalCalories) kcal")
+                    } else if let totalEnergyBurnt = totalEnergyBurnt {
+                        print("Total calories burned in the last hour: \(totalEnergyBurnt) kcal")
+                        let caloriesToRecord = totalStandingCaloriesBurnt - totalEnergyBurnt
+                        print("sub", caloriesToRecord)
                     }
                 }
                 
@@ -100,7 +103,7 @@ struct StandRecorder: View {
                 print("Authorization failed: \(String(describing: error))")
             }
         }
-        resetTimer()
+//        resetTimer()
     }
     
     private func formatTime(_ seconds: Int) -> String {
