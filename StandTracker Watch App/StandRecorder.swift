@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StandRecorder: View {
-    @State private var timeElapsed: Int = 3599
+    @State private var timeElapsed: Int = 3200
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
@@ -82,9 +82,8 @@ struct StandRecorder: View {
     }
     
     private func endWorkout() {
-        // 1.5 is a MET for standing, 0.0175 is a constant converts MET values and body weight to calories burned per minute
         let userWeight = UserDefaults.standard.double(forKey: "userWeight")
-        let caloriesPerMinute = 1.5 * userWeight * 0.0175
+        let caloriesPerMinute = 1.5 * userWeight * (1.0 / 60.0)
         let minutes = timeElapsed / 60
         let totalStandingCaloriesBurnt = caloriesPerMinute * Double(minutes)
         healthKitDataManager.requestAuthorization { (success, error) in
@@ -93,8 +92,7 @@ struct StandRecorder: View {
                     if let error = error {
                         print("Error calculating calories burned: \(error.localizedDescription)")
                     } else if let totalEnergyBurnt = totalEnergyBurnt {
-                        let caloriesToRecord = abs(totalStandingCaloriesBurnt - totalEnergyBurnt)
-                        
+                        healthKitDataManager.recordCustomWorkout(calories: totalStandingCaloriesBurnt, duration: TimeInterval(timeElapsed))
                         resetTimer()
                     }
                 }

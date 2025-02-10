@@ -13,10 +13,11 @@ class HealthDataManager {
     private let weightType = HKQuantityType.quantityType(forIdentifier: .bodyMass)!
     private let activeEnergyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
     private let basalEnergyType = HKQuantityType.quantityType(forIdentifier: .basalEnergyBurned)!
+    private let workoutType = HKObjectType.workoutType()
     
     func requestAuthorization(completion: @escaping (Bool, Error?) -> Void) {
         // Request authorization to read body weight, active energy and basal energy
-        healthKitStore.requestAuthorization(toShare: nil, read: [weightType, activeEnergyType, basalEnergyType]) { (success, error) in
+        healthKitStore.requestAuthorization(toShare: [workoutType, activeEnergyType], read: [weightType, activeEnergyType, basalEnergyType, workoutType]) { (success, error) in
             if success {
                 print("Authorization granted for HealthKit.")
             } else {
@@ -27,7 +28,6 @@ class HealthDataManager {
     }
     
     func getCaloriesBurnedLastHour(timeElapsed: Double, completion: @escaping (Double?, Error?) -> Void) {
-        print("hi", timeElapsed)
         let now = Date()
         let oneHourAgo = now.addingTimeInterval(-timeElapsed)
         
@@ -74,6 +74,53 @@ class HealthDataManager {
             } else {
                 let totalEnergyBurned = totalBasalEnergy + totalActiveEnergy
                 completion(totalEnergyBurned, nil)
+            }
+        }
+    }
+    
+    func recordCustomWorkout(calories: Double, duration: TimeInterval) {
+        print(calories)
+        let endDate = Date()
+        let startDate = endDate.addingTimeInterval(-duration)
+        
+        print("startDate: \(startDate), endDate: \(endDate)")
+
+        let workoutConfiguration = HKWorkoutConfiguration()
+        workoutConfiguration.activityType = .other
+        workoutConfiguration.locationType = .unknown
+
+        let builder = HKWorkoutBuilder(healthStore: healthKitStore, configuration: workoutConfiguration, device: .local())
+
+        builder.beginCollection(withStart: startDate) { success, error in
+            guard success else {
+                print("Error starting workout collection: \(String(describing: error?.localizedDescription))")
+                return
+            }
+
+            let energyQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: calories)
+            let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+            let energySample = HKCumulativeQuantitySample(type: energyType, quantity: energyQuantity, start: startDate, end: endDate)
+
+            builder.add([energySample]) { success, error in
+                guard success else {
+                    print("Error adding energy sample: \(String(describing: error?.localizedDescription))")
+                    return
+                }
+
+                builder.endCollection(withEnd: endDate) { success, error in
+                    guard success else {
+                        print("Error ending workout collection: \(String(describing: error?.localizedDescription))")
+                        return
+                    }
+
+                    builder.finishWorkout { workout, error in
+                        if let workout = workout {
+                            print("Workout saved successfully: \(workout)")
+                        } else {
+                            print("Error finishing workout: \(String(describing: error?.localizedDescription))")
+                        }
+                    }
+                }
             }
         }
     }
