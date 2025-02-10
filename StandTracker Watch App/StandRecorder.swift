@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StandRecorder: View {
-    @State private var timeElapsed: Int = 3600
+    @State private var timeElapsed: Int = 3599
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false
@@ -93,9 +93,9 @@ struct StandRecorder: View {
                     if let error = error {
                         print("Error calculating calories burned: \(error.localizedDescription)")
                     } else if let totalEnergyBurnt = totalEnergyBurnt {
-                        print("Total calories burned in the last hour: \(totalEnergyBurnt) kcal")
-                        let caloriesToRecord = totalStandingCaloriesBurnt - totalEnergyBurnt
-                        print("sub", caloriesToRecord)
+                        let caloriesToRecord = abs(totalStandingCaloriesBurnt - totalEnergyBurnt)
+                        
+                        resetTimer()
                     }
                 }
                 
@@ -103,7 +103,6 @@ struct StandRecorder: View {
                 print("Authorization failed: \(String(describing: error))")
             }
         }
-//        resetTimer()
     }
     
     private func formatTime(_ seconds: Int) -> String {

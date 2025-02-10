@@ -16,12 +16,6 @@ struct ContentView: View {
                                 .font(.headline)
                         }
                     }
-                    NavigationLink(destination: StandHistory()) {
-                        VStack(alignment: .leading) {
-                            Text("History")
-                                .font(.headline)
-                        }
-                    }
                 }
                 .navigationTitle("Main Menu")
             }

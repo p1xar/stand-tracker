@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		367A71A02D29762A0080766D /* StandRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A719F2D29762A0080766D /* StandRecorder.swift */; };
-		367A71A22D2976B30080766D /* StandHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367A71A12D2976B30080766D /* StandHistory.swift */; };
 		368E8FD32D2C34B600A330A0 /* HealthDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */; };
 		36F4A5D22D282A1E005E54CB /* StandTracker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 36F4A5D12D282A1E005E54CB /* StandTracker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		36F4A5D72D282A1E005E54CB /* StandTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F4A5D62D282A1E005E54CB /* StandTrackerApp.swift */; };
@@ -60,7 +59,6 @@
 
 /* Begin PBXFileReference section */
 		367A719F2D29762A0080766D /* StandRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandRecorder.swift; sourceTree = "<group>"; };
-		367A71A12D2976B30080766D /* StandHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandHistory.swift; sourceTree = "<group>"; };
 		368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDataManager.swift; sourceTree = "<group>"; };
 		36F4A5CB2D282A1E005E54CB /* StandTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StandTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36F4A5D12D282A1E005E54CB /* StandTracker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "StandTracker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,7 +127,6 @@
 				36F4A5DA2D282A1F005E54CB /* Assets.xcassets */,
 				36F4A5DC2D282A1F005E54CB /* Preview Content */,
 				367A719F2D29762A0080766D /* StandRecorder.swift */,
-				367A71A12D2976B30080766D /* StandHistory.swift */,
 				368E8FD22D2C34B600A330A0 /* HealthDataManager.swift */,
 			);
 			path = "StandTracker Watch App";
@@ -321,7 +318,6 @@
 				36F4A5D92D282A1E005E54CB /* ContentView.swift in Sources */,
 				36F4A5D72D282A1E005E54CB /* StandTrackerApp.swift in Sources */,
 				368E8FD32D2C34B600A330A0 /* HealthDataManager.swift in Sources */,
-				367A71A22D2976B30080766D /* StandHistory.swift in Sources */,
 				367A71A02D29762A0080766D /* StandRecorder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
