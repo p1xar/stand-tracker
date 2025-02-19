@@ -88,15 +88,8 @@ struct StandRecorder: View {
         let totalStandingCaloriesBurnt = caloriesPerMinute * Double(minutes)
         healthKitDataManager.requestAuthorization { (success, error) in
             if success {
-                healthKitDataManager.getCaloriesBurnedLastHour(timeElapsed: Double(timeElapsed)) { (totalEnergyBurnt, error) in
-                    if let error = error {
-                        print("Error calculating calories burned: \(error.localizedDescription)")
-                    } else if let totalEnergyBurnt = totalEnergyBurnt {
-                        healthKitDataManager.recordCustomWorkout(calories: totalStandingCaloriesBurnt, duration: TimeInterval(timeElapsed))
-                        resetTimer()
-                    }
-                }
-                
+                healthKitDataManager.recordCustomWorkout(calories: totalStandingCaloriesBurnt, duration: TimeInterval(timeElapsed))
+                resetTimer()
             } else {
                 print("Authorization failed: \(String(describing: error))")
             }

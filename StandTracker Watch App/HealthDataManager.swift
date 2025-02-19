@@ -27,57 +27,6 @@ class HealthDataManager {
         }
     }
     
-    func getCaloriesBurnedLastHour(timeElapsed: Double, completion: @escaping (Double?, Error?) -> Void) {
-        let now = Date()
-        let oneHourAgo = now.addingTimeInterval(-timeElapsed)
-        
-        // Predicate to get samples in the last hour
-        let predicate = HKQuery.predicateForSamples(withStart: oneHourAgo, end: now, options: .strictStartDate)
-        
-        // Create a dispatch group to manage multiple queries
-        let dispatchGroup = DispatchGroup()
-        
-        var totalBasalEnergy: Double = 0
-        var totalActiveEnergy: Double = 0
-        var queryError: Error?
-
-        // Fetch basal energy burned
-        dispatchGroup.enter() // Start basal energy query
-        let basalEnergyQuery = HKSampleQuery(sampleType: basalEnergyType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
-            if let error = error {
-                queryError = error
-            } else if let samples = samples as? [HKQuantitySample] {
-                totalBasalEnergy = samples.reduce(0) { $0 + $1.quantity.doubleValue(for: HKUnit.kilocalorie()) }
-            }
-            dispatchGroup.leave() // End basal energy query
-        }
-        
-        // Fetch active energy burned
-        dispatchGroup.enter() // Start active energy query
-        let activeEnergyQuery = HKSampleQuery(sampleType: activeEnergyType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
-            if let error = error {
-                queryError = error
-            } else if let samples = samples as? [HKQuantitySample] {
-                totalActiveEnergy = samples.reduce(0) { $0 + $1.quantity.doubleValue(for: HKUnit.kilocalorie()) }
-            }
-            dispatchGroup.leave() // End active energy query
-        }
-        
-        // Execute the queries
-        healthKitStore.execute(basalEnergyQuery)
-        healthKitStore.execute(activeEnergyQuery)
-        
-        // Notify completion once both queries are finished
-        dispatchGroup.notify(queue: .main) {
-            if let error = queryError {
-                completion(nil, error)
-            } else {
-                let totalEnergyBurned = totalBasalEnergy + totalActiveEnergy
-                completion(totalEnergyBurned, nil)
-            }
-        }
-    }
-    
     func recordCustomWorkout(calories: Double, duration: TimeInterval) {
         print(calories)
         let endDate = Date()
