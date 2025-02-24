@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StandRecorder: View {
-    @State private var timeElapsed: Int = 3200
+    @State private var timeElapsed: Int = 0
     @State private var isRunning: Bool = false
     @State private var timer: Timer? = nil
     @State private var showConfirmation = false

@@ -6,13 +6,19 @@ struct ContentView: View {
     
     var body: some View {
         if showWelcomeScreen {
-            WelcomeScreen(weight: $weight, showWelcomeScreen: $showWelcomeScreen)
+            WeightInput(weight: $weight, showWelcomeScreen: $showWelcomeScreen)
         } else {
             NavigationView {
                 List {
                     NavigationLink(destination: StandRecorder()) {
                         VStack(alignment: .leading) {
                             Text("Begin Standing Session")
+                                .font(.headline)
+                        }
+                    }
+                    NavigationLink(destination: WeightInput(weight: $weight, showWelcomeScreen: $showWelcomeScreen)) {
+                        VStack(alignment: .leading) {
+                            Text("Update my weight")
                                 .font(.headline)
                         }
                     }
@@ -23,7 +29,8 @@ struct ContentView: View {
     }
 }
 
-struct WelcomeScreen: View {
+struct WeightInput: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var weight: Double
     @Binding var showWelcomeScreen: Bool
 
@@ -32,12 +39,14 @@ struct WelcomeScreen: View {
 
     var body: some View {
         VStack {
-            Text("Welcome to the StandTracker!")
-                .font(.title)
-                .padding()
-
-            Text("Please input your weight:")
+            Text("To correctly track calories")
                 .font(.headline)
+                .minimumScaleFactor(0.8)
+                .lineLimit(1)
+            Text("please input your")
+                .font(.headline)
+                .minimumScaleFactor(0.9)
+                .lineLimit(1)
 
             // Picker for selecting weight
             Picker("Weight", selection: $weight) {
@@ -67,8 +76,8 @@ struct WelcomeScreen: View {
         
         // Dismiss the welcome screen
         showWelcomeScreen = false
+        dismiss()
         
-        // Debug print
         print("Saved weight: \(weight)")
     }
 }

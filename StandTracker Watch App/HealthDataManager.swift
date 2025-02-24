@@ -28,7 +28,6 @@ class HealthDataManager {
     }
     
     func recordCustomWorkout(calories: Double, duration: TimeInterval) {
-        print(calories)
         let endDate = Date()
         let startDate = endDate.addingTimeInterval(-duration)
         
